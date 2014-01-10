@@ -13,7 +13,14 @@ class AddStgPool(forms.Form):
     source = forms.CharField(error_messages={'required': _('No device has been entered')},
                              max_length=100,
                              required=False)
+    iscsi_host = forms.CharField(error_messages={'required': _('No iSCSI host has been entered')},
+                             max_length=100,
+                             required=False)
+    iscsi_target = forms.CharField(error_messages={'required': _('No iSCSI target has been entered')},
+                             max_length=100,
+                             required=False)
 
+    
     def clean_name(self):
         name = self.cleaned_data['name']
         have_symbol = re.match('[^a-zA-Z0-9._-]+', name)

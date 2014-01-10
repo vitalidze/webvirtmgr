@@ -26,7 +26,7 @@ class wvmStorages(wvmConnect):
     def define_storage(self, xml, flag):
         self.wvm.storagePoolDefineXML(xml, flag)
 
-    def create_storage(self, type, name, source, target):
+    def create_storage(self, type, name, source, target, iscsi_host, iscsi_target):
         xml = """
                 <pool type='%s'>
                 <name>%s</name>""" % (type, name)
@@ -37,8 +37,16 @@ class wvmStorages(wvmConnect):
                     <name>%s</name>
                     <format type='lvm2'/>
                   </source>""" % (source, name)
+        if type == 'iscsi':
+            xml += """
+                  <source>
+                    <host name='%s'/>
+                    <device path='%s'/>
+                  </source>""" % (iscsi_host, iscsi_target)
         if type == 'logical':
             target = '/dev/' + name
+        if type == 'iscsi':
+            target = '/dev/disk/by-path'
         xml += """
                   <target>
                        <path>%s</path>

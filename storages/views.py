@@ -37,7 +37,7 @@ def storages(request, host_id):
                         msg = _("Pool name already use")
                         errors.append(msg)
                     if not errors:
-                        conn.create_storage(data['stg_type'], data['name'], data['source'], data['target'])
+                        conn.create_storage(data['stg_type'], data['name'], data['source'], data['target'], data['iscsi_host'], data['iscsi_target'])
                         return HttpResponseRedirect('/storage/%s/%s/' % (host_id, data['name']))
         conn.close()
     except libvirtError as err:
